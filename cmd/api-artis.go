@@ -34,5 +34,7 @@ func main() {
 	apiRoutes.PUT("/actualizar-campo", routes.ActualizarCampo)
 	apiRoutes.DELETE("/campo/:idCampo/subcampo/:idSubcampo", routes.QuitarCampo)
 
+	apiRoutes.POST("/crear-coleccion", routes.CrearColeccion)
+
 	srv.Run(":8080")
 }
