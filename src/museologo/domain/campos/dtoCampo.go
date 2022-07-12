@@ -1,4 +1,4 @@
-package domain
+package campos
 
 type DtoCampo struct {
 	Id          int64  `json:"id"`

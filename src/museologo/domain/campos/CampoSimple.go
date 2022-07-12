@@ -1,4 +1,4 @@
-package domain
+package campos
 
 type CampoSimple struct {
 	repository CampoRepository

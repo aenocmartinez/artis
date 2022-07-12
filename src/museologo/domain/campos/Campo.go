@@ -1,4 +1,4 @@
-package domain
+package campos
 
 type InterfaceCampo interface {
 	Id() int64

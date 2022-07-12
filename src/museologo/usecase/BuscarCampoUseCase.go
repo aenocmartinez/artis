@@ -1,15 +1,15 @@
 package usecase
 
-import "artis/src/museologo/domain"
+import "artis/src/museologo/domain/campos"
 
 type BuscarCampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (b *BuscarCampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (b *BuscarCampoUseCase) SetRepository(repository campos.CampoRepository) {
 	b.repository = repository
 }
 
-func (b *BuscarCampoUseCase) Ejecutar(nombre string) domain.InterfaceCampo {
-	return domain.BuscarCampoPorNombre(b.repository, nombre)
+func (b *BuscarCampoUseCase) Ejecutar(nombre string) campos.InterfaceCampo {
+	return campos.BuscarCampoPorNombre(b.repository, nombre)
 }

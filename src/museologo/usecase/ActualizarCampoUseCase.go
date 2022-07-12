@@ -1,22 +1,22 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	formrequest "artis/src/museologo/infraestructure/form-request"
 	"log"
 )
 
 type ActualizarCampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (a *ActualizarCampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (a *ActualizarCampoUseCase) SetRepository(repository campos.CampoRepository) {
 	a.repository = repository
 }
 
 func (a *ActualizarCampoUseCase) Ejecutar(req formrequest.GuardarCampoFormRequest) bool {
 
-	campo := domain.BuscarCampoPorId(a.repository, req.Id)
+	campo := campos.BuscarCampoPorId(a.repository, req.Id)
 	if !campo.Existe() {
 		log.Println("el campo no existe")
 		return false

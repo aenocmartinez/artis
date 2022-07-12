@@ -1,21 +1,21 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"log"
 )
 
 type VerCampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (vc *VerCampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (vc *VerCampoUseCase) SetRepository(repository campos.CampoRepository) {
 	vc.repository = repository
 }
 
-func (vc *VerCampoUseCase) Ejecutar(idCampo int64) domain.DtoCampo {
-	var dtoCampo domain.DtoCampo
-	campo := domain.BuscarCampoPorId(vc.repository, idCampo)
+func (vc *VerCampoUseCase) Ejecutar(idCampo int64) campos.DtoCampo {
+	var dtoCampo campos.DtoCampo
+	campo := campos.BuscarCampoPorId(vc.repository, idCampo)
 	if !campo.Existe() {
 		log.Println("el campo no existe")
 		return dtoCampo

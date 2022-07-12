@@ -1,40 +1,40 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"errors"
 	"log"
 )
 
 type AgregarSubcampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (asc *AgregarSubcampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (asc *AgregarSubcampoUseCase) SetRepository(repository campos.CampoRepository) {
 	asc.repository = repository
 }
 
 func (asc *AgregarSubcampoUseCase) Ejecutar(idCampo, idSubcampo, orden int64) error {
 	var err error
 
-	campo := domain.BuscarCampoPorId(asc.repository, idCampo)
+	campo := campos.BuscarCampoPorId(asc.repository, idCampo)
 	if !campo.Existe() {
 		err = errors.New("el campo no existe")
 		log.Println("el campo no existe")
 		return err
 	}
 
-	subcampo := domain.BuscarCampoPorId(asc.repository, idSubcampo)
+	subcampo := campos.BuscarCampoPorId(asc.repository, idSubcampo)
 	if !subcampo.Existe() {
 		log.Println("el subcampo no existe")
 		err = errors.New("el subcampo no existe")
 		return err
 	}
 
-	campoCompuesto := domain.InstanceCampoCompuesto()
+	campoCompuesto := campos.InstanceCampoCompuesto()
 	campoCompuesto.SetId(idCampo)
 
-	campoSimple := domain.InstanceCampoSimple()
+	campoSimple := campos.InstanceCampoSimple()
 	campoSimple.SetId(idSubcampo)
 
 	campoCompuesto.SetRepository(asc.repository)

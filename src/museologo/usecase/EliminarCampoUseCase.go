@@ -1,20 +1,20 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"log"
 )
 
 type EliminarCampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (e *EliminarCampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (e *EliminarCampoUseCase) SetRepository(repository campos.CampoRepository) {
 	e.repository = repository
 }
 
 func (e *EliminarCampoUseCase) Ejecutar(idCampo int64) bool {
-	campo := domain.BuscarCampoPorId(e.repository, idCampo)
+	campo := campos.BuscarCampoPorId(e.repository, idCampo)
 	if !campo.Existe() {
 		log.Println("el campo no existe")
 		return false

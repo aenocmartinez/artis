@@ -1,4 +1,4 @@
-package domain
+package campos
 
 type CampoRepository interface {
 	CrearCampo(campo InterfaceCampo) bool

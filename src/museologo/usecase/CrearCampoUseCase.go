@@ -1,26 +1,26 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	formrequest "artis/src/museologo/infraestructure/form-request"
 )
 
 type CrearCampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (useCase *CrearCampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (useCase *CrearCampoUseCase) SetRepository(repository campos.CampoRepository) {
 	useCase.repository = repository
 }
 
 func (useCase *CrearCampoUseCase) Ejecutar(req formrequest.GuardarCampoFormRequest) bool {
-	dtoCampo := domain.DtoCampo{
+	dtoCampo := campos.DtoCampo{
 		Nombre:      req.Nombre,
 		Descripcion: req.Descripcion,
 		Abreviatura: req.Abreviatura,
 		EsCompuesto: req.EsCompuesto,
 	}
-	campo := domain.CampoFactoria(dtoCampo)
+	campo := campos.CampoFactoria(dtoCampo)
 	campo.SetRepository(useCase.repository)
 
 	respuesta := campo.Crear()

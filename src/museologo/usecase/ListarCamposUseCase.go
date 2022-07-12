@@ -1,15 +1,15 @@
 package usecase
 
-import "artis/src/museologo/domain"
+import "artis/src/museologo/domain/campos"
 
 type ListarCamposUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (lc *ListarCamposUseCase) SetRepository(repository domain.CampoRepository) {
+func (lc *ListarCamposUseCase) SetRepository(repository campos.CampoRepository) {
 	lc.repository = repository
 }
 
-func (lc *ListarCamposUseCase) Ejecutar() []domain.DtoCampo {
-	return domain.ListarCampos(lc.repository)
+func (lc *ListarCamposUseCase) Ejecutar() []campos.DtoCampo {
+	return campos.ListarCampos(lc.repository)
 }

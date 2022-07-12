@@ -1,4 +1,4 @@
-package domain
+package campos
 
 func CampoFactoria(dtoCampo DtoCampo) InterfaceCampo {
 	var campo InterfaceCampo = &CampoSimple{

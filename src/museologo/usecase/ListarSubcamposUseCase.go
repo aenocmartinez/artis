@@ -1,32 +1,32 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"log"
 )
 
 type ListarSubcamposUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (ls *ListarSubcamposUseCase) SetRepository(repository domain.CampoRepository) {
+func (ls *ListarSubcamposUseCase) SetRepository(repository campos.CampoRepository) {
 	ls.repository = repository
 }
 
-func (ls *ListarSubcamposUseCase) Ejecutar(idCampo int64) []domain.DtoCampo {
+func (ls *ListarSubcamposUseCase) Ejecutar(idCampo int64) []campos.DtoCampo {
 
-	campo := domain.BuscarCampoPorId(ls.repository, idCampo)
+	campo := campos.BuscarCampoPorId(ls.repository, idCampo)
 	if !campo.Existe() {
 		log.Println("el campo no existe")
-		return []domain.DtoCampo{}
+		return []campos.DtoCampo{}
 	}
 
 	if !campo.EsCompuesto() {
 		log.Println("el campo no es compuesto")
-		return []domain.DtoCampo{}
+		return []campos.DtoCampo{}
 	}
 
-	campoCompuesto := domain.InstanceCampoCompuesto()
+	campoCompuesto := campos.InstanceCampoCompuesto()
 	campoCompuesto.SetId(idCampo)
 	campoCompuesto.SetRepository(ls.repository)
 	return campoCompuesto.ListarSubcampos()

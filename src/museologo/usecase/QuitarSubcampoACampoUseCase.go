@@ -1,21 +1,21 @@
 package usecase
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"log"
 )
 
 type QuitarSubcampoACampoUseCase struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func (q *QuitarSubcampoACampoUseCase) SetRepository(repository domain.CampoRepository) {
+func (q *QuitarSubcampoACampoUseCase) SetRepository(repository campos.CampoRepository) {
 	q.repository = repository
 }
 
 func (q *QuitarSubcampoACampoUseCase) Ejecutar(idCampo, idSubcampo int64) bool {
 
-	campo := domain.BuscarCampoPorId(q.repository, idCampo)
+	campo := campos.BuscarCampoPorId(q.repository, idCampo)
 	if !campo.Existe() {
 		log.Println("el campo no existe")
 		return false
@@ -26,13 +26,13 @@ func (q *QuitarSubcampoACampoUseCase) Ejecutar(idCampo, idSubcampo int64) bool {
 		return false
 	}
 
-	subcampo := domain.BuscarCampoPorId(q.repository, idSubcampo)
+	subcampo := campos.BuscarCampoPorId(q.repository, idSubcampo)
 	if !subcampo.Existe() {
 		log.Println("el subcampo no existe")
 		return false
 	}
 
-	campoCompuesto, _ := campo.(*domain.CampoCompuesto)
+	campoCompuesto, _ := campo.(*campos.CampoCompuesto)
 	campoCompuesto.SetRepository(q.repository)
 	return campoCompuesto.QuitarSubcampo(subcampo)
 }

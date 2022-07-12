@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	formrequest "artis/src/museologo/infraestructure/form-request"
 	"artis/src/museologo/usecase"
 	"errors"
@@ -11,10 +11,10 @@ import (
 )
 
 type MuseologoController struct {
-	repository domain.CampoRepository
+	repository campos.CampoRepository
 }
 
-func InstanceMuseologoController(repository domain.CampoRepository) *MuseologoController {
+func InstanceMuseologoController(repository campos.CampoRepository) *MuseologoController {
 	return &MuseologoController{
 		repository: repository,
 	}
@@ -37,13 +37,13 @@ func (ctr *MuseologoController) CrearCampo(c *gin.Context) error {
 	return nil
 }
 
-func (ctr *MuseologoController) ListarCampos(c *gin.Context) []domain.DtoCampo {
+func (ctr *MuseologoController) ListarCampos(c *gin.Context) []campos.DtoCampo {
 	listarCamposUseCase := usecase.ListarCamposUseCase{}
 	listarCamposUseCase.SetRepository(ctr.repository)
 	return listarCamposUseCase.Ejecutar()
 }
 
-func (ctr *MuseologoController) VerCampo(c *gin.Context) domain.DtoCampo {
+func (ctr *MuseologoController) VerCampo(c *gin.Context) campos.DtoCampo {
 	var err error
 	var id int = 0
 
@@ -71,7 +71,7 @@ func (ctr *MuseologoController) AgregarSubcampo(c *gin.Context) error {
 	return agregarSubcampoUseCase.Ejecutar(req.IdCampo, req.IdSubcampo, req.Orden)
 }
 
-func (ctr *MuseologoController) ListarSubcampos(c *gin.Context) []domain.DtoCampo {
+func (ctr *MuseologoController) ListarSubcampos(c *gin.Context) []campos.DtoCampo {
 	var err error
 	var id int = 0
 

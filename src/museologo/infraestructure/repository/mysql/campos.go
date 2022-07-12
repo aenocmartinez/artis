@@ -1,24 +1,24 @@
-package repository
+package mysql
 
 import (
 	"artis/config/database"
-	"artis/src/museologo/domain"
+	"artis/src/museologo/domain/campos"
 	"bytes"
 	"database/sql"
 	"log"
 )
 
-type MySQL struct {
+type CampoDB struct {
 	conn *sql.DB
 }
 
-func InstanceMySQL() *MySQL {
-	return &MySQL{
+func InstanceCampoDB() *CampoDB {
+	return &CampoDB{
 		conn: database.Instance().Connection(),
 	}
 }
 
-func (m *MySQL) CrearCampo(campo domain.InterfaceCampo) bool {
+func (m *CampoDB) CrearCampo(campo campos.InterfaceCampo) bool {
 	var query bytes.Buffer
 	query.WriteString("INSERT INTO campos(nombre, descripcion, abreviatura) VALUES (?, ?, ?)")
 
@@ -47,7 +47,7 @@ func (m *MySQL) CrearCampo(campo domain.InterfaceCampo) bool {
 	return true
 }
 
-func (m *MySQL) EliminarCampo(id int64) bool {
+func (m *CampoDB) EliminarCampo(id int64) bool {
 	var query bytes.Buffer
 	query.WriteString("DELETE FROM campos WHERE id = ?")
 
@@ -68,7 +68,7 @@ func (m *MySQL) EliminarCampo(id int64) bool {
 	return true
 }
 
-func (m *MySQL) ActualizarCampo(campo *domain.Campo) bool {
+func (m *CampoDB) ActualizarCampo(campo *campos.Campo) bool {
 	var query bytes.Buffer
 	query.WriteString("UPDATE campos SET nombre=?, descripcion=?, abreviatura=?, updated_at=NOW() WHERE id = ?")
 
@@ -97,8 +97,8 @@ func (m *MySQL) ActualizarCampo(campo *domain.Campo) bool {
 	return true
 }
 
-func (m *MySQL) ListarCampos() []domain.DtoCampo {
-	var campos []domain.DtoCampo
+func (m *CampoDB) ListarCampos() []campos.DtoCampo {
+	var listaCampos []campos.DtoCampo
 	var query bytes.Buffer
 
 	query.WriteString("SELECT ")
@@ -121,7 +121,7 @@ func (m *MySQL) ListarCampos() []domain.DtoCampo {
 
 		rows.Scan(&id, &nombre, &descripcion, &abreviatura, &esCompuesto)
 
-		campos = append(campos, domain.DtoCampo{
+		listaCampos = append(listaCampos, campos.DtoCampo{
 			Id:          id,
 			Nombre:      nombre,
 			Abreviatura: abreviatura,
@@ -129,17 +129,17 @@ func (m *MySQL) ListarCampos() []domain.DtoCampo {
 			EsCompuesto: esCompuesto,
 		})
 	}
-	return campos
+	return listaCampos
 }
 
-func (m *MySQL) BuscarCampoPorNombre(nombre string) domain.InterfaceCampo {
+func (m *CampoDB) BuscarCampoPorNombre(nombre string) campos.InterfaceCampo {
 	return nil
 }
 
-func (m *MySQL) BuscarCampoPorId(id int64) domain.InterfaceCampo {
+func (m *CampoDB) BuscarCampoPorId(id int64) campos.InterfaceCampo {
 	var nombre, descripcion, abreviatura string
 	var esCompuesto bool
-	var campo domain.InterfaceCampo
+	var campo campos.InterfaceCampo
 
 	var query bytes.Buffer
 	query.WriteString("SELECT ")
@@ -152,9 +152,9 @@ func (m *MySQL) BuscarCampoPorId(id int64) domain.InterfaceCampo {
 	row := m.conn.QueryRow(query.String(), id)
 	row.Scan(&id, &nombre, &descripcion, &abreviatura, &esCompuesto)
 
-	campo = domain.InstanceCampoSimple()
+	campo = campos.InstanceCampoSimple()
 	if esCompuesto {
-		campo = domain.InstanceCampoCompuesto()
+		campo = campos.InstanceCampoCompuesto()
 	}
 	campo.SetId(id)
 	campo.SetNombre(nombre)
@@ -164,7 +164,7 @@ func (m *MySQL) BuscarCampoPorId(id int64) domain.InterfaceCampo {
 	return campo
 }
 
-func (m *MySQL) AgregarSubcampo(idCampo, idSubcampo, orden int64) bool {
+func (m *CampoDB) AgregarSubcampo(idCampo, idSubcampo, orden int64) bool {
 	var query bytes.Buffer
 	query.WriteString("INSERT INTO subcampos(campo_id, subcampo_id, orden) VALUES (?, ?, ?)")
 
@@ -185,8 +185,29 @@ func (m *MySQL) AgregarSubcampo(idCampo, idSubcampo, orden int64) bool {
 	return true
 }
 
-func (m *MySQL) ListarSubcampos(idCampo int64) []domain.DtoCampo {
-	var subcampos []domain.DtoCampo
+func (m *CampoDB) QuitarSubcampo(idCampo, idSubcampo int64) bool {
+	var query bytes.Buffer
+	query.WriteString("DELETE FROM subcampos WHERE campo_id = ? AND subcampo_id = ?")
+
+	stmt, err := m.conn.Prepare(query.String())
+
+	if err != nil {
+		log.Println(err.Error())
+		return false
+	}
+
+	_, err = stmt.Exec(idCampo, idSubcampo)
+	if err != nil {
+		log.Println(err.Error())
+		return false
+	}
+
+	defer stmt.Close()
+	return true
+}
+
+func (m *CampoDB) ListarSubcampos(idCampo int64) []campos.DtoCampo {
+	var subcampos []campos.DtoCampo
 	var query bytes.Buffer
 	query.WriteString("SELECT ")
 	query.WriteString("c2.id, c2.nombre, c2.descripcion, c2.abreviatura ")
@@ -208,7 +229,7 @@ func (m *MySQL) ListarSubcampos(idCampo int64) []domain.DtoCampo {
 
 		rows.Scan(&id, &nombre, &descripcion, &abreviatura)
 
-		subcampos = append(subcampos, domain.DtoCampo{
+		subcampos = append(subcampos, campos.DtoCampo{
 			Id:          id,
 			Nombre:      nombre,
 			Abreviatura: abreviatura,
@@ -216,25 +237,4 @@ func (m *MySQL) ListarSubcampos(idCampo int64) []domain.DtoCampo {
 		})
 	}
 	return subcampos
-}
-
-func (m *MySQL) QuitarSubcampo(idCampo, idSubcampo int64) bool {
-	var query bytes.Buffer
-	query.WriteString("DELETE FROM subcampos WHERE campo_id = ? AND subcampo_id = ?")
-
-	stmt, err := m.conn.Prepare(query.String())
-
-	if err != nil {
-		log.Println(err.Error())
-		return false
-	}
-
-	_, err = stmt.Exec(idCampo, idSubcampo)
-	if err != nil {
-		log.Println(err.Error())
-		return false
-	}
-
-	defer stmt.Close()
-	return true
 }
