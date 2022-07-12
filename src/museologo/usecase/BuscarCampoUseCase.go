@@ -3,10 +3,10 @@ package usecase
 import "artis/src/museologo/domain"
 
 type BuscarCampoUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (b *BuscarCampoUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (b *BuscarCampoUseCase) SetRepository(repository domain.CampoRepository) {
 	b.repository = repository
 }
 

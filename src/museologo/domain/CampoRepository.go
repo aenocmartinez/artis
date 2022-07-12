@@ -1,6 +1,6 @@
 package domain
 
-type MuseologoRepository interface {
+type CampoRepository interface {
 	CrearCampo(campo InterfaceCampo) bool
 	EliminarCampo(id int64) bool
 	ActualizarCampo(campo *Campo) bool

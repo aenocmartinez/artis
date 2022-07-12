@@ -7,10 +7,10 @@ import (
 )
 
 type AgregarSubcampoUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (asc *AgregarSubcampoUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (asc *AgregarSubcampoUseCase) SetRepository(repository domain.CampoRepository) {
 	asc.repository = repository
 }
 

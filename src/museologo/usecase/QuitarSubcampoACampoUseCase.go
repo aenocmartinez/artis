@@ -6,10 +6,10 @@ import (
 )
 
 type QuitarSubcampoACampoUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (q *QuitarSubcampoACampoUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (q *QuitarSubcampoACampoUseCase) SetRepository(repository domain.CampoRepository) {
 	q.repository = repository
 }
 

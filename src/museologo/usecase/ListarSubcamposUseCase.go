@@ -6,10 +6,10 @@ import (
 )
 
 type ListarSubcamposUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (ls *ListarSubcamposUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (ls *ListarSubcamposUseCase) SetRepository(repository domain.CampoRepository) {
 	ls.repository = repository
 }
 

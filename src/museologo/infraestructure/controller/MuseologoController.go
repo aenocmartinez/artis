@@ -11,10 +11,10 @@ import (
 )
 
 type MuseologoController struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func InstanceMuseologoController(repository domain.MuseologoRepository) *MuseologoController {
+func InstanceMuseologoController(repository domain.CampoRepository) *MuseologoController {
 	return &MuseologoController{
 		repository: repository,
 	}

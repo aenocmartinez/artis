@@ -1,7 +1,7 @@
 package domain
 
 type CampoSimple struct {
-	repository MuseologoRepository
+	repository CampoRepository
 	campo      *Campo `json:"campo"`
 }
 
@@ -11,7 +11,7 @@ func InstanceCampoSimple() *CampoSimple {
 	}
 }
 
-func (cs *CampoSimple) SetRepository(repository MuseologoRepository) {
+func (cs *CampoSimple) SetRepository(repository CampoRepository) {
 	cs.repository = repository
 }
 

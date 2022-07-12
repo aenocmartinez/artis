@@ -6,10 +6,10 @@ import (
 )
 
 type EliminarCampoUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (e *EliminarCampoUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (e *EliminarCampoUseCase) SetRepository(repository domain.CampoRepository) {
 	e.repository = repository
 }
 

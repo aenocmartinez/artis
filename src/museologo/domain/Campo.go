@@ -10,7 +10,7 @@ type InterfaceCampo interface {
 	Abreviatura() string
 	Descripcion() string
 	EsCompuesto() bool
-	SetRepository(repository MuseologoRepository)
+	SetRepository(repository CampoRepository)
 	SetId(id int64)
 	SetNombre(nombre string)
 	SetDescripcion(descripcion string)
@@ -18,14 +18,14 @@ type InterfaceCampo interface {
 }
 
 type Campo struct {
-	repository  MuseologoRepository
+	repository  CampoRepository
 	id          int64  `json:"id"`
 	nombre      string `json:"nombre"`
 	descripcion string `json:"descripcion"`
 	abreviatura string `json:"abreviatura"`
 }
 
-func (c *Campo) SetRepository(repository MuseologoRepository) {
+func (c *Campo) SetRepository(repository CampoRepository) {
 	c.repository = repository
 }
 
@@ -61,14 +61,14 @@ func (c *Campo) Abreviatura() string {
 	return c.abreviatura
 }
 
-func ListarCampos(repository MuseologoRepository) []DtoCampo {
+func ListarCampos(repository CampoRepository) []DtoCampo {
 	return repository.ListarCampos()
 }
 
-func BuscarCampoPorNombre(repository MuseologoRepository, nombre string) InterfaceCampo {
+func BuscarCampoPorNombre(repository CampoRepository, nombre string) InterfaceCampo {
 	return repository.BuscarCampoPorNombre(nombre)
 }
 
-func BuscarCampoPorId(repository MuseologoRepository, idCampo int64) InterfaceCampo {
+func BuscarCampoPorId(repository CampoRepository, idCampo int64) InterfaceCampo {
 	return repository.BuscarCampoPorId(idCampo)
 }

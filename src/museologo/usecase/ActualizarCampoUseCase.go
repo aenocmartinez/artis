@@ -7,10 +7,10 @@ import (
 )
 
 type ActualizarCampoUseCase struct {
-	repository domain.MuseologoRepository
+	repository domain.CampoRepository
 }
 
-func (a *ActualizarCampoUseCase) SetRepository(repository domain.MuseologoRepository) {
+func (a *ActualizarCampoUseCase) SetRepository(repository domain.CampoRepository) {
 	a.repository = repository
 }
 
