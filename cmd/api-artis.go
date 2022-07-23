@@ -27,14 +27,17 @@ func main() {
 	apiRoutes := srv.Group("/api-artis")
 	apiRoutes.POST("/crear-campo", routes.CrearCampo)
 	apiRoutes.GET("/listar-campos", routes.ListarCampos)
-	apiRoutes.GET("/campo/:id", routes.VerCampo)
+	apiRoutes.GET("/campo/:id", routes.BuscarCampo)
 	apiRoutes.POST("/agregar-subcampo", routes.AgregarSubcampo)
 	apiRoutes.GET("/campo/:id/subcampos", routes.ListarSubcampos)
 	apiRoutes.DELETE("/eliminar-campo/:id", routes.EliminarCampo)
 	apiRoutes.PUT("/actualizar-campo", routes.ActualizarCampo)
 	apiRoutes.DELETE("/campo/:idCampo/subcampo/:idSubcampo", routes.QuitarCampo)
 
+	apiRoutes.GET("/coleccion/:id", routes.BuscarColeccion)
 	apiRoutes.POST("/crear-coleccion", routes.CrearColeccion)
+	apiRoutes.GET("/listar-colecciones", routes.ListarColecciones)
+	apiRoutes.PUT("/actualizar-coleccion", routes.ActualizarColeccion)
 
 	srv.Run(":8080")
 }

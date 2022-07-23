@@ -43,7 +43,7 @@ func (ctr *MuseologoController) ListarCampos(c *gin.Context) []campos.DtoCampo {
 	return listarCamposUseCase.Ejecutar()
 }
 
-func (ctr *MuseologoController) VerCampo(c *gin.Context) campos.DtoCampo {
+func (ctr *MuseologoController) BuscarCampo(c *gin.Context) campos.DtoCampo {
 	var err error
 	var id int = 0
 

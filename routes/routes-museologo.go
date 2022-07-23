@@ -24,9 +24,9 @@ func ListarCampos(c *gin.Context) {
 	c.JSON(200, gin.H{"data": campos})
 }
 
-func VerCampo(c *gin.Context) {
+func BuscarCampo(c *gin.Context) {
 	ctr := controller.InstanceMuseologoController(mysql.InstanceCampoDB())
-	campo := ctr.VerCampo(c)
+	campo := ctr.BuscarCampo(c)
 	c.JSON(200, gin.H{"data": campo})
 }
 
